@@ -19,15 +19,16 @@ public record PublicBusiness(
   String email,
   String instagram,
   String facebook,
-  boolean wholesale
+  boolean wholesale,
+  boolean demo
 ) {
-  public static PublicBusiness from(BusinessSettings settings) {
+  public static PublicBusiness from(BusinessSettings settings, boolean demo) {
     return new PublicBusiness(
       settings.getName(),
       settings.getDescription(),
       settings.getCurrency(),
       settings.getPrimaryColor(),
-      settings.getWhatsapp(),
+      demo ? "" : settings.getWhatsapp(),
       settings.getMinimumOrder(),
       settings.getWelcomeMessage(),
       settings.getTerms(),
@@ -39,7 +40,8 @@ public record PublicBusiness(
       settings.email,
       settings.instagram,
       settings.facebook,
-      settings.wholesale
+      settings.wholesale,
+      demo
     );
   }
 }

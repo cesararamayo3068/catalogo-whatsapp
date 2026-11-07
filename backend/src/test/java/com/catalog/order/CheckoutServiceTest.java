@@ -68,6 +68,18 @@ class CheckoutServiceTest {
   }
 
   @Test
+  void preparesDemoOrderWithoutWhatsappDestination() {
+    when(settings.demo()).thenReturn(true);
+    when(settings.whatsapp()).thenReturn("");
+
+    var result = checkout.prepare(input(3, null));
+
+    assertEquals(new BigDecimal("0.30"), result.total());
+    assertTrue(result.message().contains("TOTAL GENERAL: ARS 0.30"));
+    assertEquals("", result.whatsappUrl());
+  }
+
+  @Test
   void usesCurrentServerPromotion() {
     product.price = new BigDecimal("200.00");
     product.promotionalPrice = new BigDecimal("150.00");

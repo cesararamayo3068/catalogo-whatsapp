@@ -4,6 +4,7 @@ export interface Business {
   currency: string;
   primaryColor: string;
   whatsapp: string;
+  demo?: boolean;
   minimumOrder: number;
   welcomeMessage: string;
   terms: string;

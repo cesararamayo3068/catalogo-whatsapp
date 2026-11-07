@@ -61,7 +61,7 @@ public class CheckoutService {
   public Prepared prepare(Input input) {
     var settings = business.getPublicSettings();
     if (
-      !settings.whatsapp().matches("[1-9][0-9]{7,14}")
+      !settings.demo() && !settings.whatsapp().matches("[1-9][0-9]{7,14}")
     ) throw ApiException.invalid(
       "El comercio todavía no configuró su WhatsApp. Contactalo por los datos del pie de página."
     );
@@ -178,10 +178,12 @@ public class CheckoutService {
       total,
       settings.currency(),
       message,
-      "https://wa.me/" +
-        settings.whatsapp() +
-        "?text=" +
-        URLEncoder.encode(message, StandardCharsets.UTF_8).replace("+", "%20")
+      settings.demo()
+        ? ""
+        : "https://wa.me/" +
+          settings.whatsapp() +
+          "?text=" +
+          URLEncoder.encode(message, StandardCharsets.UTF_8).replace("+", "%20")
     );
   }
 

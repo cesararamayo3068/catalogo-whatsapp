@@ -24,7 +24,11 @@ import { Prepared } from "../../core/models";
       <div class="checkout-layout">
         <section class="form-panel">
           <h2>Tus datos de contacto</h2>
-          <p>El comercio los recibirá cuando confirmes el envío en WhatsApp.</p>
+          @if (state.business()?.demo) {
+            <p>Demo con datos de ejemplo. Usá un nombre y una localidad ficticios.</p>
+          } @else {
+            <p>El comercio los recibirá cuando confirmes el envío en WhatsApp.</p>
+          }
           <form [formGroup]="form" (ngSubmit)="prepare()">
             <div class="form-grid">
               <label
@@ -108,7 +112,7 @@ import { Prepared } from "../../core/models";
             El importe definitivo se recalcula con los precios actuales del
             comercio.
           </p>
-          @if (!state.business()?.whatsapp) {
+          @if (!state.business()?.demo && !state.business()?.whatsapp) {
             <p class="notice">
               El comercio necesita configurar su número de WhatsApp antes de
               recibir pedidos.
@@ -121,7 +125,7 @@ import { Prepared } from "../../core/models";
           <div class="section-heading">
             <div>
               <span class="eyebrow">PRECIOS Y DISPONIBILIDAD REVISADOS</span>
-              <h2>Revisá antes de abrir WhatsApp</h2>
+              <h2>{{ order.whatsappUrl ? "Revisá antes de abrir WhatsApp" : "Vista previa del mensaje" }}</h2>
             </div>
             <strong>{{ state.money(order.total) }}</strong>
           </div>
@@ -141,7 +145,7 @@ import { Prepared } from "../../core/models";
               La validación venció. Prepará el pedido nuevamente para actualizar
               los precios.
             </p>
-          } @else {
+          } @else if (order.whatsappUrl) {
             <a
               class="primary-link whatsapp-button"
               [href]="order.whatsappUrl"
@@ -151,11 +155,14 @@ import { Prepared } from "../../core/models";
               ><i class="pi pi-whatsapp"></i> Abrir WhatsApp para enviar</a
             >
           }
-          <p>
-            Se abrirá WhatsApp con el mensaje preparado.
-            <strong>Vos tenés que confirmar el envío.</strong> El comercio
-            todavía no recibió el pedido por abrir esta página.
-          </p>
+          @if (order.whatsappUrl) {
+            <p>
+              Se abrirá WhatsApp con el mensaje preparado.
+              <strong>Vos tenés que confirmar el envío.</strong>
+            </p>
+          } @else {
+            <p>En esta demo podés revisar el pedido de ejemplo. El envío está deshabilitado.</p>
+          }
           @if (opened()) {
             <p class="notice">
               Se solicitó abrir WhatsApp. El carrito se conserva para que puedas

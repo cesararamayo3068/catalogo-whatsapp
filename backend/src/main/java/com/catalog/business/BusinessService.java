@@ -1,5 +1,6 @@
 package com.catalog.business;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,14 +12,20 @@ public class BusinessService {
 
   private final BusinessRepository repository;
 
-  public BusinessService(BusinessRepository repository) {
+  private final boolean demo;
+
+  public BusinessService(
+    BusinessRepository repository,
+    @Value("${commerce.demo:false}") boolean demo
+  ) {
     this.repository = repository;
+    this.demo = demo;
   }
 
   public PublicBusiness getPublicSettings() {
     return repository
       .findById((short) 1)
-      .map(PublicBusiness::from)
+      .map(settings -> PublicBusiness.from(settings, demo))
       .orElseThrow(() ->
         new ResponseStatusException(
           HttpStatus.SERVICE_UNAVAILABLE,
@@ -46,6 +53,6 @@ public class BusinessService {
         com.catalog.common.ApiException.missing("Configuración no encontrada")
       );
     settings.apply(input);
-    return PublicBusiness.from(repository.saveAndFlush(settings));
+    return PublicBusiness.from(repository.saveAndFlush(settings), demo);
   }
 }

@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: cesar-catalogo-whatsapp-api
+    runtime: docker
+    plan: free
+    region: ohio
+    rootDir: backend
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: demo
+      - key: JAVA_TOOL_OPTIONS
+        value: "-XX:MaxRAMPercentage=55"
+      - key: DB_URL
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: FRONTEND_ORIGIN
+        sync: false

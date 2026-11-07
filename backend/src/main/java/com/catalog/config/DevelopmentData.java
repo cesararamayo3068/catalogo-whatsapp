@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
-@Profile("development")
+@Profile({ "development", "demo" })
 public class DevelopmentData implements ApplicationRunner {
 
   private final ProductRepository products;
@@ -46,7 +46,7 @@ public class DevelopmentData implements ApplicationRunner {
         "",
         BigDecimal.ZERO,
         "Buenas cosas para tu día a día.",
-        "Catálogo de desarrollo con productos e ilustraciones de ejemplo. Disponibilidad, pago y entrega se confirman con el comercio.",
+        "Catálogo con productos e ilustraciones de ejemplo. Disponibilidad, pago y entrega se confirman con el comercio.",
         "",
         "",
         "",
