@@ -28,4 +28,3 @@ docker compose up --build -d
 
 - [Configuración, API y despliegue](docs/OPERACION.md)
 - [Arquitectura](docs/ARCHITECTURE.md)
-- [Publicar una demo](docs/DESPLIEGUE.md)
