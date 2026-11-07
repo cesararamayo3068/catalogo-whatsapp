@@ -1,0 +1,36 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "storefront": {
+      "projectType": "application",
+      "root": "",
+      "sourceRoot": "src",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "src/main.ts",
+            "index": "src/index.html",
+            "assets": [{"glob":"**/*","input":"public"}],
+            "tsConfig": "tsconfig.app.json",
+            "styles": ["node_modules/primeicons/primeicons.css", "src/commerce.scss"],
+            "outputPath": "dist/storefront"
+          },
+          "configurations": {
+            "production": {"outputHashing": "all", "budgets": [{"type": "initial", "maximumWarning": "700kB", "maximumError": "1MB"}]},
+            "development": {"optimization": false, "sourceMap": true}
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "options": {"buildTarget": "storefront:build:development", "proxyConfig": "proxy.conf.json"}
+        },
+        "test": {"builder": "@angular/build:unit-test", "options": {"tsConfig": "tsconfig.spec.json"}}
+      }
+    }
+  },
+  "cli": {"analytics": false}
+}

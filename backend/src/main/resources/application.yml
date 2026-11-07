@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: commerce-catalog
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:55434/commerce}
+    username: ${DB_USER:commerce}
+    password: ${DB_PASSWORD}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 6MB
+server:
+  port: ${PORT:8080}
+  error:
+    include-message: never
+    include-stacktrace: never
+  servlet:
+    session:
+      timeout: 30m
+      cookie:
+        http-only: true
+        secure: ${COOKIE_SECURE:true}
+        same-site: lax
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+commerce:
+  allowed-origin: ${FRONTEND_ORIGIN:http://localhost:14202}
+  storage-directory: ${STORAGE_DIRECTORY:./uploads}
